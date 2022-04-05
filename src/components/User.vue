@@ -115,4 +115,13 @@ export default {
   padding: 5px;
   border-radius: 5px;
 }
+
+.beer__button:hover {
+  background-color: #ffbe0d;
+  color: #fff;
+}
+
+.beer__button:active {
+  background-color: #ffbe0db5;
+}
 </style>
