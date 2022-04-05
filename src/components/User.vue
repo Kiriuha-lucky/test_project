@@ -24,6 +24,7 @@
         {{ this.beer.brand }}
       </p>
     </div>
+    <button class="beer__button" v-on:click="updateBeer">Change Beer</button>
   </div>
 </template>
 
@@ -49,17 +50,23 @@ export default {
       const age = Math.floor((new Date() - new Date(dateBirth)) / 31536000000);
       return age;
     },
+    getUser() {
+      return axios.get("https://random-data-api.com/api/users/random_user");
+    },
+    getBeer() {
+      return axios.get("https://random-data-api.com/api/beer/random_beer ");
+    },
+    async updateBeer() {
+      try {
+        const response = await this.getBeer();
+        this.$data.beer = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   async created() {
-    function getBeer() {
-      return axios.get("https://random-data-api.com/api/beer/random_beer ");
-    }
-
-    function getUser() {
-      return axios.get("https://random-data-api.com/api/users/random_user");
-    }
-
-    await Promise.all([getBeer(), getUser()])
+    await Promise.all([this.getBeer(), this.getUser()])
       .then(
         axios.spread((d1, d2) => {
           this.beer = d1.data;
@@ -97,5 +104,15 @@ export default {
 
 .user__recommended-beer {
   margin-top: 0;
+}
+
+.beer__button {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  border: 2px solid #ffbe0d;
+  padding: 5px;
+  border-radius: 5px;
 }
 </style>
